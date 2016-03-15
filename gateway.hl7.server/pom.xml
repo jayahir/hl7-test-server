@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.jboss.fuse</groupId>
+		<artifactId>hl7.parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>gateway.hl7.server</artifactId>
+
+	<packaging>bundle</packaging>
+
+	<name>Gateway :: HL7 :: Server</name>
+
+	<properties>
+
+	</properties>
+
+	<dependencies>
+
+		<!-- Project Dependencies -->
+		<dependency>
+			<groupId>org.jboss.fuse</groupId>
+			<artifactId>service.health</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Fuse Dependencies -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ca.uhn.hapi</groupId>
+			<artifactId>hapi-base</artifactId>
+			<version>${hapi-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ca.uhn.hapi</groupId>
+			<artifactId>hapi-structures-v26</artifactId>
+			<version>${hapi-version}</version>
+		</dependency>
+
+		<!-- logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<!-- to generate the MANIFEST-FILE of the bundle -->
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${bundle-plugin-version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Export-Package />
+					</instructions>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

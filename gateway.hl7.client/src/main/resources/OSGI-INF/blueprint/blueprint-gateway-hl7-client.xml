@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+	xsi:schemaLocation="
+             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd
+             http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd">
+
+	<cm:property-placeholder persistent-id="org.jboss.fuse.gateway.hl7.client" />
+
+	<bean id="gw.hl7decoder"
+		class="org.apache.camel.component.hl7.HL7MLLPNettyDecoderFactory" />
+
+	<bean id="gw.hl7encoder"
+		class="org.apache.camel.component.hl7.HL7MLLPNettyEncoderFactory" />
+
+	<camelContext id="gw.hl7.client"
+		xmlns="http://camel.apache.org/schema/blueprint" useMDCLogging="true">
+
+		<route id="injectRawHL7RouteBuidler">
+
+			<!-- Read hl7 payloads from the file system. -->
+			<from uri="file://test-data/rawhl7?move=processed" />
+			<log message="Starting Client Test" />
+
+			<!-- Convert Body from a File to a String -->
+			<convertBodyTo type="java.lang.String" />
+
+			<!-- Assuming synchronous behavior -->
+			<to	uri="netty4:tcp://{{server.outgoing.hl7.tcp.ip}}:{{server.outgoing.hl7.tcp.port}}?sync=true&amp;encoder=#gw.hl7encoder&amp;decoder=#gw.hl7decoder" />
+
+			<!-- Logging the results -->
+			<log message="This is response: ${body}" />
+
+			<!-- Drop to filesystem -->
+			<to
+				uri="file://test-data/responses?fileName=adr-a19-${date:now:yyyyMMdd-hhmmss}" />
+
+		</route>
+
+	</camelContext>
+
+</blueprint>

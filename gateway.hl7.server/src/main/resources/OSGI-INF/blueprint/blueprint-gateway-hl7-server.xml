@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0"
+	xsi:schemaLocation="
+             http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+             http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd
+             http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.0.0 http://aries.apache.org/schemas/blueprint-cm/blueprint-cm-1.0.0.xsd">
+
+	<cm:property-placeholder persistent-id="org.jboss.fuse.gateway.hl7.server" />
+
+	<bean id="gw.hl7decoder"
+		class="org.apache.camel.component.hl7.HL7MLLPNettyDecoderFactory" />
+
+	<bean id="gw.hl7encoder"
+		class="org.apache.camel.component.hl7.HL7MLLPNettyEncoderFactory" />
+
+	<bean id="hl7SyncReceiveRouteBuilder"
+		class="org.jboss.fuse.gateway.hl7.server.builders.HL7SyncReceiveRouteBuilder" />
+
+	<bean id="hl7SyncSendRouteBuilder"
+		class="org.jboss.fuse.gateway.hl7.server.builders.HL7SyncSendRouteBuilder" />
+
+	<bean id="a19RouteBuilder"
+		class="org.jboss.fuse.gateway.hl7.server.builders.A19RequestRouteBuilder" />
+
+	<bean id="unhandledRouteBuilder"
+		class="org.jboss.fuse.gateway.hl7.server.builders.UnhandledRouteBuilder" />
+
+	<reference id="healthService" interface="org.jboss.fuse.service.health.HealthService" />
+
+	<bean id="a19Processor"
+		class="org.jboss.fuse.gateway.hl7.server.processors.A19Processor">
+		<property name="healthService" ref="healthService" />
+	</bean>
+
+	<bean id="unsupportedProcessor"
+		class="org.jboss.fuse.gateway.hl7.server.processors.UnsupportedProcessor">
+		<property name="healthService" ref="healthService" />
+	</bean>
+
+	<camelContext id="gw.hl7.server"
+		xmlns="http://camel.apache.org/schema/blueprint" useMDCLogging="true">
+
+		<!-- Request Handler for HL7 Server -->
+		<routeBuilder ref="hl7SyncReceiveRouteBuilder" />
+
+		<!-- Request Route Builders -->
+		<routeBuilder ref="a19RouteBuilder" />
+		<routeBuilder ref="unhandledRouteBuilder" />
+
+		<!-- Send Handler from HL7 Server -->
+		<routeBuilder ref="hl7SyncSendRouteBuilder" />
+
+	</camelContext>
+
+</blueprint>
