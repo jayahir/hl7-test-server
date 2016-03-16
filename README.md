@@ -16,14 +16,14 @@ The following is description of each module:
 ## Installation
 
 To install the server:
-'features:addurl mvn:org.jboss.fuse/hl7.features/0.0.1-SNAPSHOT/xml/features'
-'features:install gateway-hl7'
+`features:addurl mvn:org.jboss.fuse/hl7.features/0.0.1-SNAPSHOT/xml/features`
+`features:install gateway-hl7`
 
 To install the test clients:
-'features:install gateway-hl7-client'
-'features:install service-health-client'
+`features:install gateway-hl7-client`
+`features:install service-health-client`
 
 The gateway-hl7-client expects that a HL7 payload is placed on the filesystem at the following location:
-'${JBOSS_FUSE_HOME}/test-data/rawhl7'
+`${JBOSS_FUSE_HOME}/test-data/rawhl7`
 
 and an example payload is located at https://github.com/joelicious/hl7-test-server/blob/master/gateway.hl7.client/src/test/resources/test-data/QRY_A19.hl7
