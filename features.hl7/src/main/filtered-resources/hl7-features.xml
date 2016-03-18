@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<features name="hl7-app" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"
+<features
+	name="hl7-app"
+	xmlns="http://karaf.apache.org/xmlns/features/v1.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.0.0 http://karaf.apache.org/xmlns/features/v1.0.0">
 
 	<!-- The repositories of the Middleware -->
 	<repository>mvn:org.apache.camel.karaf/apache-camel/${camel-version}/xml/features</repository>
 
-	<feature name='service-health' version='${project.version}'>
+	<feature
+		name='service-health'
+		version='${project.version}'>
 		<feature>camel-hl7</feature>
 		<bundle>mvn:ca.uhn.hapi/hapi-osgi-base/${hapi-version}</bundle>
 		<bundle>mvn:org.jboss.fuse/service.health/${project.version}</bundle>
@@ -14,16 +18,22 @@
 
 	</feature>
 
-	<feature name='gateway-hl7' version='${project.version}'>
+	<feature
+		name='gateway-hl7'
+		version='${project.version}'>
 		<feature>service-health</feature>
 		<bundle>mvn:org.jboss.fuse/gateway.hl7.server/${project.version}</bundle>
 	</feature>
 
-	<feature name='service-health-client' version='${project.version}'>
+	<feature
+		name='service-health-client'
+		version='${project.version}'>
 		<bundle>mvn:org.jboss.fuse/service.health.client/${project.version}</bundle>
 	</feature>
 
-	<feature name='gateway-hl7-client' version='${project.version}'>
+	<feature
+		name='gateway-hl7-client'
+		version='${project.version}'>
 		<bundle>mvn:org.jboss.fuse/gateway.hl7.client/${project.version}</bundle>
 	</feature>
 
